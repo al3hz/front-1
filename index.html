@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <div class="login-caja">
+      <img
+        class="icono"
+        src="imagenes/9db76fa6a9bd11809d5862b8eae8f211_cropped.png"
+        alt="Logo"
+      />
+      <h1>Login</h1>
+      <form>
+        <!--Usuario-->
+        <label for="usuario">Usuario</label>
+        <input type="text" placeholder="Escribir usuario." id="usuario" />
+
+        <!--Contraseña-->
+        <label for="contraseña">Contraseña</label>
+        <input
+          type="password"
+          placeholder="Escribir contraseña."
+          id="password"
+        />
+
+        <button class="login-button" type="button" onclick="procesarLogin()">
+          Iniciar sesion
+        </button>
+
+        <a href="#">Olvide la contraseña.</a><br />
+        <a href="#">No tengo cuenta.</a>
+      </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      axios.get("http://localhost:3000/roles/listar-roles").then((response) => {
+        console.log(response);
+      });
+
+      function procesarLogin() {
+        const inputUsuario = document.getElementById("usuario");
+        const inputClave = document.getElementById("password");
+
+        const payload = {
+          username: inputUsuario.value,
+          password: inputClave.value,
+        };
+
+        axios
+          .post("http://localhost:3000/user/", payload)
+          .then((response) => {
+            Swal.fire("Usuario encontrado", "", "success");
+          })
+          .catch((error) => {
+            Swal.fire("Usuario no encontrado", "", "error");
+          });
+      }
+    </script>
+  </body>
+</html>
